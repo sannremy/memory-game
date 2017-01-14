@@ -46,8 +46,7 @@
         {
           "properties": false
         }
-      ],
-      "max-len": {"code": 110}
+      ]
     }
   }
 }

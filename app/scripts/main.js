@@ -94,6 +94,7 @@
       this.CARD_STATE_FOUND = 2;
       this.message = '';
       this.bubble = document.querySelector('.bubble');
+      // this.host = new Host();
     }
 
     reset() {
@@ -113,7 +114,8 @@
       let drawCard = null;
 
       while (remainingCards > 0) {
-        drawCard = this.cardList[Math.floor(Math.random() * this.cardList.length)];
+        let random = Math.floor(Math.random() * this.cardList.length);
+        drawCard = this.cardList[random];
         if (cards.indexOf(drawCard + '--1') === -1) {
           cards.push(drawCard + '--1');
           cards.push(drawCard + '--2');
@@ -135,7 +137,9 @@
       cardElements.forEach(card => {
         let back = card.querySelector('.card__flipper--back');
         if (back) {
-          back.style.backgroundImage = 'url(/images/emojione/' + cardImages[i] + '.svg)';
+          back.style.backgroundImage = 'url(/images/emojione/' +
+            cardImages[i] +
+            '.svg)';
         }
 
         card.setAttribute('data-image', cardImages[i]);
@@ -146,10 +150,9 @@
       });
     }
 
-    clickCardEvent(card, event) {
-      if(!this.isChecking) {
+    clickCardEvent(card) {
+      if (!this.isChecking) {
         let unique = card.getAttribute('data-unique');
-        let state = this.currentCards[unique];
 
         this.setFlippedCard(unique);
         this.checkFound(unique);
@@ -157,23 +160,31 @@
     }
 
     setFlippedCard(cardId) {
-      document.querySelector('[data-unique="' + cardId + '"]').classList.add('card--flipped');
+      document.querySelector('[data-unique="' + cardId + '"]')
+              .classList.add('card--flipped');
     }
 
     checkFound(cardId) {
       if (this.flippedCard) {
         // found
-        if (this.flippedCard !== cardId && this.flippedCard.replace('--1', '').replace('--2', '') === cardId.replace('--1', '').replace('--2', '')) {
-          document.querySelector('[data-unique="' + cardId + '"]').classList.add('card--found');
-          document.querySelector('[data-unique="' + this.flippedCard + '"]').classList.add('card--found');
+        let flippedImg = this.flippedCard.replace('--1', '').replace('--2', '');
+        let cardImage = cardId.replace('--1', '').replace('--2', '');
+
+        if (this.flippedCard !== cardId && flippedImg === cardImage) {
+          document.querySelector('[data-unique="' + cardId + '"]').classList
+                  .add('card--found');
+          document.querySelector('[data-unique="' + this.flippedCard + '"]')
+                  .classList.add('card--found');
           this.setMessageBubble('Nice one!');
         } else {
           // not found
           this.isChecking = true;
           this.setMessageBubble('Not found, try again');
           ((memoryGame, card1, card2) => setTimeout(() => {
-            document.querySelector('[data-unique="' + card1 + '"]').classList.remove('card--flipped');
-            document.querySelector('[data-unique="' + card2 + '"]').classList.remove('card--flipped');
+            document.querySelector('[data-unique="' + card1 + '"]').classList
+              .remove('card--flipped');
+            document.querySelector('[data-unique="' + card2 + '"]').classList
+              .remove('card--flipped');
             memoryGame.isChecking = false;
           }, 1000))(this, this.flippedCard, cardId);
         }
@@ -199,11 +210,21 @@
     }
   }
 
-  class Host {
-    constructor() {
-      this.emotions = ['smiling-face', 'smiling-eyes', 'joy', 'love', 'wry', 'kiss', 'weary', 'cry', 'pouting'];
-    }
-  }
+  // class Host {
+  //   constructor() {
+  //     this.emotions = [
+  //       'smiling-face',
+  //       'smiling-eyes',
+  //       'joy',
+  //       'love',
+  //       'wry',
+  //       'kiss',
+  //       'weary',
+  //       'cry',
+  //       'pouting'
+  //     ];
+  //   }
+  // }
 
   window.memoryGame = new MemoryGame();
   window.memoryGame.reset();
