@@ -1,0 +1,10 @@
+node_modules
+dist/
+.tmp
+app.yaml
+
+# OSX
+.DS_Store
+
+# API Keys for dev
+config/development.json
