@@ -50,6 +50,7 @@ html, body {
     background-repeat: no-repeat;
     background-size: 80% 100%;
     background-color: transparent;
+    transition: all .3s linear;
 
     &--smiling-face {
       background-image: url(/images/emojione/1f63a.svg);

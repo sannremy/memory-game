@@ -75,6 +75,102 @@
   // Your custom JavaScript goes here
 
   /**
+   * Utils
+   */
+  class MemoryGameUtil {
+    static shuffleList(list) {
+      for (let i = list.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [list[i - 1], list[j]] = [list[j], list[i - 1]];
+      }
+    }
+
+    static pickRandomItem(list) {
+      let random = Math.floor(Math.random() * list.length);
+      return list[random];
+    }
+  }
+
+  /**
+   * Host class
+   */
+  class Host {
+    constructor() {
+      this.contexts = [
+        'welcome',
+        'idle',
+        'one-flipped',
+        'found',
+        'not-found'
+      ];
+
+      this.emotions = {
+        'welcome': ['smiling-face', 'smiling-eyes'],
+        'idle': ['smiling-face', 'smiling-eyes'],
+        'one-flipped': ['smiling-face', 'smiling-eyes'],
+        'found': ['kiss', 'smiling-face', 'smiling-eyes', 'joy', 'love'],
+        'not-found': ['cry', 'weary', 'pouting']
+      };
+
+      this.messages = {
+        'welcome': [
+          'Hi there!',
+          'Heya!',
+          'Let\'s play',
+          'Let\'s have some fun'
+        ],
+        'idle': [
+          'Select a card',
+          'Choose a card',
+          'Choose a card wisely',
+          'Pick a card',
+          'Take the card you want'
+        ],
+        'one-flipped': [
+          'Select a second card',
+          'Looks like a deja vu?',
+          'Where is the other one?',
+          'I know where is the other one, but I won\'t tell you',
+          'Take another one, wisely...'
+        ],
+        'found': [
+          'Yay!',
+          'Wow!',
+          'Well played!',
+          'Well done!',
+          'Tadaaaaa!'
+        ],
+        'not-found': [
+          'Let\'s try again!',
+          'No worries, you\'ll find it!',
+          'Oh no!',
+          'Wrong one, keep up!'
+        ]
+      };
+
+      this.bubbleElement = document.querySelector('.bubble');
+      this.hostElement = document.querySelector('.playerinfo__host');
+    }
+
+    changeEmotion(context) {
+      // context is defined
+      if (this.contexts.indexOf(context) > -1) {
+        let emotion = MemoryGameUtil.pickRandomItem(this.emotions[context]);
+        let message = MemoryGameUtil.pickRandomItem(this.messages[context]);
+
+        for (let i = 0; i < this.hostElement.classList.length; i++) {
+          if (/playerinfo__host--.*/.test(this.hostElement.classList[i])) {
+            this.hostElement.classList.remove(this.hostElement.classList[i]);
+          }
+        }
+
+        this.bubbleElement.innerText = message;
+        this.hostElement.classList.add('playerinfo__host--' + emotion);
+      }
+    }
+  }
+
+  /**
    * Memory game
    */
   class MemoryGame {
@@ -92,20 +188,11 @@
       this.CARD_STATE_UNKNOWN = 0;
       this.CARD_STATE_FLIPPED = 1;
       this.CARD_STATE_FOUND = 2;
-      this.message = '';
-      this.bubble = document.querySelector('.bubble');
-      // this.host = new Host();
+      this.host = new Host();
     }
 
     reset() {
       this.generateCards();
-    }
-
-    shuffleCards(cards) {
-      for (let i = cards.length; i; i--) {
-        let j = Math.floor(Math.random() * i);
-        [cards[i - 1], cards[j]] = [cards[j], cards[i - 1]];
-      }
     }
 
     generateCards() {
@@ -114,8 +201,7 @@
       let drawCard = null;
 
       while (remainingCards > 0) {
-        let random = Math.floor(Math.random() * this.cardList.length);
-        drawCard = this.cardList[random];
+        drawCard = MemoryGameUtil.pickRandomItem(this.cardList);
         if (cards.indexOf(drawCard + '--1') === -1) {
           cards.push(drawCard + '--1');
           cards.push(drawCard + '--2');
@@ -123,7 +209,7 @@
         remainingCards--;
       }
 
-      this.shuffleCards(cards);
+      MemoryGameUtil.shuffleList(cards);
 
       let cardImages = [];
       this.currentCards = {};
@@ -148,6 +234,8 @@
 
         i++;
       });
+
+      this.host.changeEmotion('welcome');
     }
 
     clickCardEvent(card) {
@@ -175,11 +263,11 @@
                   .add('card--found');
           document.querySelector('[data-unique="' + this.flippedCard + '"]')
                   .classList.add('card--found');
-          this.setMessageBubble('Nice one!');
+          this.host.changeEmotion('found');
         } else {
           // not found
           this.isChecking = true;
-          this.setMessageBubble('Not found, try again');
+          this.host.changeEmotion('not-found');
           ((memoryGame, card1, card2) => setTimeout(() => {
             document.querySelector('[data-unique="' + card1 + '"]').classList
               .remove('card--flipped');
@@ -193,38 +281,14 @@
       } else {
         // one card flipped
         this.flippedCard = cardId;
-        this.setMessageBubble('One card flipped');
+        this.host.changeEmotion('one-flipped');
       }
     }
 
     getTotalUniqueCards() {
       return this.totalCards / 2;
     }
-
-    setMessageBubble(message) {
-      if (message === '') {
-        this.bubble.style.display = 'none';
-      }
-      this.bubble.style.display = 'block';
-      this.bubble.innerText = message;
-    }
   }
-
-  // class Host {
-  //   constructor() {
-  //     this.emotions = [
-  //       'smiling-face',
-  //       'smiling-eyes',
-  //       'joy',
-  //       'love',
-  //       'wry',
-  //       'kiss',
-  //       'weary',
-  //       'cry',
-  //       'pouting'
-  //     ];
-  //   }
-  // }
 
   window.memoryGame = new MemoryGame();
   window.memoryGame.reset();
