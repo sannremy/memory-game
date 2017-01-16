@@ -189,6 +189,21 @@
       this.CARD_STATE_FLIPPED = 1;
       this.CARD_STATE_FOUND = 2;
       this.host = new Host();
+
+      this.preloadAssets();
+    }
+
+    preloadAssets() {
+      (new Image()).src = '/images/mimi.jpg';
+      (new Image()).src = '/images/emojione/1f63a.svg';
+      (new Image()).src = '/images/emojione/1f638.svg';
+      (new Image()).src = '/images/emojione/1f639.svg';
+      (new Image()).src = '/images/emojione/1f63b.svg';
+      (new Image()).src = '/images/emojione/1f63c.svg';
+      (new Image()).src = '/images/emojione/1f63d.svg';
+      (new Image()).src = '/images/emojione/1f640.svg';
+      (new Image()).src = '/images/emojione/1f63f.svg';
+      (new Image()).src = '/images/emojione/1f63e.svg';
     }
 
     reset() {

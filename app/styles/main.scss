@@ -12,16 +12,25 @@ html, body {
 }
 
 .splash {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
   height: 100%;
   background: linear-gradient(to bottom, #cdeb8e 0%, #a5c956 100%);
   padding-top: 4em;
+  animation-name: slideSplash;
+  animation-duration: .6s;
+  animation-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 4s;
 
   &__logo {
     margin: 0 auto;
     width: 120px;
     height: 120px;
     background-image: url(/images/mimi.jpg);
-    background-size: calc(100% + 20px);
+    background-size: 100%;
     background-position: center;
     border-radius: 120px;
   }
@@ -44,7 +53,7 @@ html, body {
   }
 
   &__loader {
-    margin-top: 1em;
+    margin-top: 0.2em;
     color: #fff;
 
     ul {
@@ -55,14 +64,14 @@ html, body {
         position: absolute;
         width: 100%;
         opacity: 0;
-        animation-name: slide;
+        animation-name: slideLoader;
         animation-duration: 1s;
         animation-timing-function: ease-in;
         animation-iteration-count: 1;
 
-        @for $i from 1 through 4 {
+        @for $i from 1 through 3 {
           &:nth-child(#{$i}) {
-            animation-delay: 1s * ($i - 1);
+            animation-delay: 1s * $i;
           }
         }
       }
@@ -113,7 +122,7 @@ html, body {
     background-repeat: no-repeat;
     background-size: 80% 100%;
     background-color: transparent;
-    transition: all .3s linear;
+    transition: all .2s cubic-bezier(0.895, 0.03, 0.685, 0.22);
 
     &--smiling-face {
       background-image: url(/images/emojione/1f63a.svg);
@@ -149,10 +158,6 @@ html, body {
 
     &--pouting {
       background-image: url(/images/emojione/1f63e.svg);
-    }
-
-    &--doge {
-      background-image: url(/images/emojione/1f436.svg);
     }
   }
 

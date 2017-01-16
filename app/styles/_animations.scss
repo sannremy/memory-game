@@ -1,4 +1,14 @@
-@keyframes slide { 
+@keyframes slideSplash { 
+	0% {
+		top: 0;
+	}
+
+	100% {
+		top: 100%;
+	}
+}
+
+@keyframes slideLoader { 
 	0% {
 		opacity: 0;
 		transform: translateY(10px);
