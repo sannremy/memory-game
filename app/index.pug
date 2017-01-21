@@ -19,10 +19,10 @@ html
           li Preparing dry cat food...
           li Putting water...
           li Petting the cat...
-    div.board.board--victory
+    div.board
       div.board__deck
         - var n = 0;
-        while n < 24
+        while n < 4
           a(class="card")
             span(class="card__flipper")
               span(class="card__flipper--front")
@@ -32,3 +32,12 @@ html
         div.playerinfo__host
         div.playerinfo__message
             p.bubble
+    div.end
+      div.end__container
+        div.end__score
+          h1.end__title Congratulations!
+          p.end__time 01:23:53
+
+        div.end__actions
+          ul
+            li.end__replay
