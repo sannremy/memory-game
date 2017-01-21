@@ -89,6 +89,10 @@
       let random = Math.floor(Math.random() * list.length);
       return list[random];
     }
+
+    static formatDigit(digit) {
+      return (digit < 10 ? '0' : '') + digit;
+    }
   }
 
   /**
@@ -193,6 +197,7 @@
       this.CARD_STATE_UNKNOWN = 0;
       this.CARD_STATE_FLIPPED = 1;
       this.CARD_STATE_FOUND = 2;
+      this.clickCardEventRefs = {};
 
       this.host = new Host();
 
@@ -228,12 +233,19 @@
     }
 
     reset() {
-      var cards = document.querySelectorAll('.card');
+      let cards = document.querySelectorAll('.card');
       if (cards) {
         cards.forEach(card => {
           card.classList.remove('card--flipped');
           card.classList.remove('card--found');
+
+          card.removeEventListener(
+            'click',
+            this.clickCardEventRefs[card.getAttribute('data-unique')]
+          );
         });
+
+        this.clickCardEventRefs = {};
       }
 
       this.generateCards();
@@ -247,7 +259,7 @@
       this.currentCards = {};
       this.flippedCard = null;
       this.isChecking = false;
-      this.isFirstFlipped = true;
+      this.isFirstFlipped = false;
 
       while (remainingCards > 0) {
         drawCard = MemoryGameUtil.pickRandomItem(this.cardList);
@@ -278,7 +290,11 @@
 
         card.setAttribute('data-image', cardImages[i]);
         card.setAttribute('data-unique', cards[i]);
-        card.addEventListener('click', this.clickCardEvent.bind(this, card));
+        this.clickCardEventRefs[cards[i]] = this.clickCardEvent.bind(
+          this,
+          card
+        );
+        card.addEventListener('click', this.clickCardEventRefs[cards[i]]);
 
         i++;
       });
@@ -288,9 +304,9 @@
 
     clickCardEvent(card) {
       if (!this.isChecking) {
-        if (this.isFirstFlipped) {
+        if (!this.isFirstFlipped) {
           this.startDate = new Date();
-          this.isFirstFlipped = false;
+          this.isFirstFlipped = true;
         }
 
         let unique = card.getAttribute('data-unique');
@@ -323,9 +339,17 @@
           if (this.totalCards === cardsFound) {
             this.endDate = new Date();
             document.body.classList.add('victory');
+
             let duration = this.endDate - this.startDate;
             let endTime = document.querySelector('.end__time');
-            endTime.innerText = duration / 1000;
+
+            let seconds = Math.floor(duration / 1000);
+            let ticks = (duration - seconds * 1000);
+            let minutes = Math.floor(seconds / 60);
+
+            endTime.innerText = MemoryGameUtil.formatDigit(minutes) + ':' +
+              MemoryGameUtil.formatDigit(seconds) + ':' +
+              ticks;
           }
         } else {
           // not found
