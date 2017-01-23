@@ -1,6 +1,7 @@
 @import '_reset';
 @import '_breakpoints';
 @import '_animations';
+@import '_fonts';
 
 html, body {
   // keep address bar
@@ -123,7 +124,7 @@ html, body {
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 80% 100%;
+    background-size: 80% 90%;
     background-color: transparent;
     transition: all .2s cubic-bezier(0.895, 0.03, 0.685, 0.22);
 
@@ -197,14 +198,6 @@ html, body {
   perspective: 800px;
   display: block;
   margin: 6px;
-
-  width: 54px;
-  height: 54px;
-
-  @include breakpoint('small') {
-    width: 56px;
-    height: 56px;
-  }
 
   &--flipped,
   &--found {

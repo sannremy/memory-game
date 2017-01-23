@@ -221,13 +221,35 @@
       this.preloadAssets();
       this.reset();
 
-      var self = this;
-      var replay = document.querySelector('.end__replay');
+      let self = this;
+      let replay = document.querySelector('.end__replay');
       if (replay) {
         replay.addEventListener('click', () => {
           self.replay();
         });
       }
+
+      // init card sizes
+      let deckElement = document.querySelector('.board__deck');
+      let cardElements = deckElement.querySelectorAll('.card');
+
+      this.changeCardSizes(deckElement, cardElements);
+
+      window.addEventListener('resize', this.changeCardSizes.bind(
+          this,
+          deckElement,
+          cardElements
+      ));
+    }
+
+    changeCardSizes(deckElement, cardElements) {
+      let totalMargins = 24;
+      let deckPxSquare = (deckElement.clientWidth * deckElement.clientHeight);
+      let size = Math.sqrt(deckPxSquare / this.totalCards) - totalMargins;
+      cardElements.forEach(card => {
+        card.style.width = size + 'px';
+        card.style.height = size + 'px';
+      });
     }
 
     preloadAssets() {

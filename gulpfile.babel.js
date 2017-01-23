@@ -56,6 +56,13 @@ gulp.task('images', () =>
     .pipe($.size({title: 'images'}))
 );
 
+// Copy fonts
+gulp.task('fonts', () =>
+  gulp.src('app/fonts/**/*')
+    .pipe(gulp.dest('dist/fonts'))
+    .pipe($.size({title: 'fonts'}))
+);
+
 // Copy all files at the root level (app)
 gulp.task('copy', () =>
   gulp.src([
@@ -127,32 +134,6 @@ gulp.task('scripts', () =>
       .pipe(gulp.dest('dist/scripts'))
 );
 
-// USE pug INSTEAD
-// // Scan your HTML for assets & optimize them
-// gulp.task('html', () => {
-//   return gulp.src('app/**/*.html')
-//     .pipe($.useref({
-//       searchPath: '{.tmp,app}',
-//       noAssets: true
-//     }))
-
-//     // Minify any HTML
-//     .pipe($.if('*.html', $.htmlmin({
-//       removeComments: true,
-//       collapseWhitespace: true,
-//       collapseBooleanAttributes: true,
-//       removeAttributeQuotes: true,
-//       removeRedundantAttributes: true,
-//       removeEmptyAttributes: true,
-//       removeScriptTypeAttributes: true,
-//       removeStyleLinkTypeAttributes: true,
-//       removeOptionalTags: true
-//     })))
-//     // Output files
-//     .pipe($.if('*.html', $.size({title: 'html', showFiles: true})))
-//     .pipe(gulp.dest('dist'));
-// });
-
 gulp.task('pug', () => {
   return gulp.src('app/**/*.{pug,jade}')
     .pipe($.pug({}))
@@ -198,6 +179,10 @@ gulp.task('serve', ['scripts', 'styles', 'pug'], () => {
   gulp.watch([
     'app/images/**/*'
   ], reload);
+
+  gulp.watch([
+    'app/fonts/**/*'
+  ], reload);
 });
 
 // Build and serve the output from the dist build
@@ -221,7 +206,7 @@ gulp.task('default', ['clean'], cb =>
   runSequence(
     'styles',
     // ['lint', 'html', 'scripts', 'images', 'copy'],
-    ['lint', 'pug', 'scripts', 'images', 'copy'],
+    ['lint', 'pug', 'scripts', 'images', 'fonts', 'copy'],
     'generate-service-worker',
     cb
   )
@@ -264,6 +249,7 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
     staticFileGlobs: [
       // Add/remove glob patterns to match your directory setup.
       `${rootDir}/images/**/*`,
+      `${rootDir}/fonts/**/*`,
       `${rootDir}/scripts/**/*.js`,
       `${rootDir}/styles/**/*.css`,
       `${rootDir}/*.{html,json}`
