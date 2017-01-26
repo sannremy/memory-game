@@ -171,13 +171,17 @@ html, body {
 }
 
 .bubble {
-  width: 80%;
   position: relative;
+  left: 12px;
+  display: inline-block;
   background: #fff;
   border-radius: 10px;
   margin: 0 auto;
-  padding: 16px 10px 16px 5px;
+  padding: 16px 10px;
   text-align: center;
+  max-width: 80%;
+
+  font-size: 1.2em;
 
   &::after {
     right: 100%;
