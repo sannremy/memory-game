@@ -285,6 +285,7 @@ html, body {
       position: absolute;
       left: 0;
       top: -100px;
+      filter: drop-shadow(0 0 40px rgba(0, 0, 0, .6));
     }
 
     &::after {
