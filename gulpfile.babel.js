@@ -69,8 +69,8 @@ gulp.task('copy', () =>
     'app/*',
     '!app/*.html',
     '!app/*.jade',
-    '!app/*.pug',
-    'node_modules/apache-server-configs/dist/.htaccess'
+    '!app/*.pug'
+    // 'node_modules/apache-server-configs/dist/.htaccess'
   ], {
     dot: true
   }).pipe(gulp.dest('dist'))
@@ -264,3 +264,7 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
 // Load custom tasks from the `tasks` directory
 // Run: `npm install --save-dev require-dir` from the command-line
 // try { require('require-dir')('tasks'); } catch (err) { console.error(err); }
+gulp.task('deploy', function() {
+  return gulp.src('./dist/**/*')
+    .pipe($.ghPages());
+});
