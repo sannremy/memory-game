@@ -395,7 +395,7 @@
             }
           }
           this.flippedCard = null;
-        } if (this.flippedCard === cardId) {
+        } else if (this.flippedCard === cardId) {
           // same card
           this.host.changeEmotion('already-flipped');
         } else {
