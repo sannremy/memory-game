@@ -46,14 +46,27 @@ gulp.task('lint', () =>
 );
 
 // Optimize images
-gulp.task('images', () =>
-  gulp.src('app/images/**/*')
+gulp.task('images', ['images:emojione'], () =>
+  gulp.src([
+      'app/images/**/*',
+      '!app/images/emojione',
+      '!app/images/emojione/**',
+    ])
     .pipe($.cache($.imagemin({
       progressive: true,
       interlaced: true
     })))
     .pipe(gulp.dest('dist/images'))
     .pipe($.size({title: 'images'}))
+);
+
+// Emojion images
+gulp.task('images:emojione', () =>
+  gulp.src([
+      'app/images/emojione/**/*',
+    ])
+    .pipe(gulp.dest('dist/images/emojione'))
+    .pipe($.size({title: 'images:emojione'}))
 );
 
 // Copy fonts
