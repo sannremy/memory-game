@@ -8,3 +8,6 @@ app.yaml
 
 # API Keys for dev
 config/development.json
+
+# publish folder
+.publish/
