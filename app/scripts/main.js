@@ -255,15 +255,15 @@
 
     preloadAssets() {
       (new Image()).src = '/images/mimi.jpg';
-      (new Image()).src = '/images/emojione/1f63a.svg';
-      (new Image()).src = '/images/emojione/1f638.svg';
-      (new Image()).src = '/images/emojione/1f639.svg';
-      (new Image()).src = '/images/emojione/1f63b.svg';
-      (new Image()).src = '/images/emojione/1f63c.svg';
-      (new Image()).src = '/images/emojione/1f63d.svg';
-      (new Image()).src = '/images/emojione/1f640.svg';
-      (new Image()).src = '/images/emojione/1f63f.svg';
-      (new Image()).src = '/images/emojione/1f63e.svg';
+      (new Image()).src = '/images/emojione/0/1f63a.svg';
+      (new Image()).src = '/images/emojione/1/1f638.svg';
+      (new Image()).src = '/images/emojione/1/1f639.svg';
+      (new Image()).src = '/images/emojione/0/1f63b.svg';
+      (new Image()).src = '/images/emojione/0/1f63c.svg';
+      (new Image()).src = '/images/emojione/0/1f63d.svg';
+      (new Image()).src = '/images/emojione/1/1f640.svg';
+      (new Image()).src = '/images/emojione/0/1f63f.svg';
+      (new Image()).src = '/images/emojione/0/1f63e.svg';
     }
 
     replay() {
@@ -309,8 +309,8 @@
         let back = card.querySelector('.card__flipper--back');
         if (back) {
           back.style.backgroundImage = 'url(/images/emojione/' +
-            cardImages[i] +
-            '.svg)';
+            + Math.floor(this.cardList.indexOf(cardImages[i]) / 1000) + '/' +
+            cardImages[i] + '.svg)';
         }
 
         card.setAttribute('data-image', cardImages[i]);
