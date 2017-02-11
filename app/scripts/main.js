@@ -309,8 +309,8 @@
         let back = card.querySelector('.card__flipper--back');
         if (back) {
           back.style.backgroundImage = 'url(/images/emojione/' +
-            + Math.floor(this.cardList.indexOf(cardImages[i]) / 1000) + '/' +
-            cardImages[i] + '.svg)';
+            Number(Math.floor(this.cardList.indexOf(cardImages[i]) / 1000)) +
+            '/' + cardImages[i] + '.svg)';
         }
 
         card.setAttribute('data-image', cardImages[i]);
