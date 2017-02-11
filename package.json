@@ -1,4 +1,8 @@
 {
+  "name": "memory-game",
+  "version": "1.0.0",
+  "description": "A memory game with a cat",
+  "author": "Sann-Remy Chea",
   "devDependencies": {
     "apache-server-configs": "^2.7.1",
     "babel-core": "^6.0.15",
