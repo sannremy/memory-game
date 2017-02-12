@@ -3,8 +3,8 @@
   "short_name": "Mimemory ",
   "start_url": ".",
   "display": "fullscreen",
-  "background_color": "#cdeb8e",
-  "theme_color": "#cdeb8e",
+  "background_color": "#81bf54",
+  "theme_color": "#81bf54",
   "description": "A memory game",
   "icons": [{
     "src": "images/manifest/mimi.png",
