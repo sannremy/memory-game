@@ -243,7 +243,7 @@
     }
 
     changeCardSizes(deckElement, cardElements) {
-      let totalMargins = 32 * this.totalCards / 2;
+      let totalMargins = 32;
       let deckPxSquare = (deckElement.clientWidth * deckElement.clientHeight);
       let size = Math.sqrt(deckPxSquare / this.totalCards) - totalMargins;
 
