@@ -4,15 +4,17 @@ html
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='apple-mobile-web-app-capable', content='yes')
-    title MimiMory by MimiGames
+    title Mimemory
+    link(rel='manifest', href='manifest.webmanifest')
+    link(rel='icon' type='image/png' href='images/manifest/mimi.png')
     link(rel='stylesheet', href='styles/main.css')
     script(defer, src='scripts/main.js')
   body
     div.splash
       div.splash__logo
       h1.splash__title
-        span.splash__title--mimi Mimi
-        span.splash__title--games Games
+        span.splash__title--mimi Mime
+        span.splash__title--games mory
       div.splash__loader
         ul
           li Preparing dry cat food...
@@ -23,10 +25,10 @@ html
       div.board__deck
         - var n = 0;
         while n < cards
-          a(class="card")
-            span(class="card__flipper")
-              span(class="card__flipper--front")
-              span(class="card__flipper--back")
+          a(class='card')
+            span(class='card__flipper')
+              span(class='card__flipper--front')
+              span(class='card__flipper--back')
           - n++;
       div.board__playerinfo
         div.playerinfo__host
